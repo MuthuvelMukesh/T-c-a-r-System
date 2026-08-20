@@ -1,0 +1,10 @@
+{
+  "version": "v1",
+  "effective_date": "2026-08-20T00:00:00Z",
+  "weights": {
+    "emergency": 10.0,
+    "transit_fixed_schedule": 5.0,
+    "freight_time_critical": 3.0,
+    "commuter_general": 1.0
+  }
+}

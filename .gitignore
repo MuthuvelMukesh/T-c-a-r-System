@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+data/*.sqlite3
+data/*.sqlite3-*
+data/audit_report.json
+data/network.json
+
+.env
