@@ -87,6 +87,18 @@ npm run build
 npm run preview
 ```
 
+## Next steps
+
+Recommended follow-up work for taking the prototype further:
+
+1. Add automated backend tests for route selection, diversification caps, policy weighting, audit divergence, and invalid-route handling.
+2. Add dashboard tests for API-unavailable, route-not-found, reset, and successful route-calculation states.
+3. Replace the synthetic network and trip stream with validated traffic, incident, weather, and transit feeds.
+4. Add authentication, authorization, rate limiting, structured logging, and production health checks before exposing the API publicly.
+5. Containerize the routing API and dashboard, then add CI for type checking, Python validation, frontend builds, and security scanning.
+6. Add persistent operational metrics and alerts for congestion, route concentration, policy divergence, and audit threshold breaches.
+7. Evaluate policy changes with replayed scenarios and a versioned approval workflow before publishing them to production.
+
 ## Demo behavior
 
 `run_demo.py` does three things:
