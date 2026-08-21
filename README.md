@@ -10,13 +10,14 @@ This repository contains a standalone prototype of a priority-weighted, anti-her
 - Priority categories: `emergency`, `transit_fixed_schedule`, `freight_time_critical`, `commuter_general`
 - A routing engine that evaluates k-shortest paths, applies priority weights, and diversifies away from herd routes
 - An audit service that fetches the published policy over HTTP and checks the decision log independently
+- A React/Vite dashboard in `dashboard/` backed by the routing API and audit data
 
 ## What is not included
 
 - No real GPS, weather, or incident feeds
 - No ML/GNN prediction model
 - No Kafka/Kinesis/Redis
-- No user interface
+- No production traffic feeds or deployment configuration
 - No Docker requirement for the primary run path
 
 ## Run the demo
@@ -44,6 +45,46 @@ Run the audit service on an existing log database:
 
 ```bash
 python -m audit_service.main --log-db data/decisions.sqlite3 --policy-base-url http://127.0.0.1:8000 --version v1
+```
+
+## Run the AEGIS dashboard
+
+Install the dashboard dependencies:
+
+```bash
+cd dashboard
+npm install
+```
+
+Start the routing API from the repository root in one terminal:
+
+```bash
+uvicorn routing_engine.main:app --reload --port 8000
+```
+
+Start the dashboard in another terminal:
+
+```bash
+cd dashboard
+npm run dev
+```
+
+Open `http://localhost:5173/`. The dashboard uses the real synthetic network, routing decisions, policy weights, route alternatives, congestion analytics, and independent audit report. It does not replace or modify the routing, simulator, audit, or policy logic.
+
+If the API uses a different port, create `dashboard/.env.local` with:
+
+```bash
+VITE_API_BASE_URL=http://127.0.0.1:8001
+```
+
+The header shows `Live` or `Offline` status. When the API is unavailable, the dashboard displays an API-unavailable state for the map and route controls. When no valid path exists, it displays a route-not-found state instead of presenting stale route data.
+
+Build the dashboard for production preview:
+
+```bash
+cd dashboard
+npm run build
+npm run preview
 ```
 
 ## Demo behavior
