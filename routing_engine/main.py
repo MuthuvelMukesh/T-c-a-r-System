@@ -12,6 +12,8 @@ from typing import Any
 
 import networkx as nx
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from shared import NetworkSpec, RouteAlternative, RouteDecision, TripCategory, TripRequest, WeightSchedule
 
@@ -264,6 +266,19 @@ config = EngineConfig(
 )
 engine = TrafficEngine(config)
 app = FastAPI(title="Priority Weighted Traffic Routing Engine")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+app.mount("/data", StaticFiles(directory=str(APP_ROOT / "data")), name="data")
 
 
 @app.get("/health")
